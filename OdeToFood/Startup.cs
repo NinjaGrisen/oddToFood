@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using OdeToFood.Services;
 using Microsoft.AspNetCore.Routing;
 using System;
+using OdeToFood.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace OdeToFood
 {
@@ -29,18 +31,24 @@ namespace OdeToFood
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddEntityFrameworkSqlServer()
+                .AddEntityFrameworkSqlServer()
+                .AddDbContext<OdeToFoodDbContext>(
+                options => options.UseSqlServer(Configuration["database:connection"]));
+
             services.AddSingleton(privider => Configuration);
             services.AddSingleton<IGreeter, Greeter>();
-            services.AddScoped<IResturantData, InMemoryResturantData>();
+            services.AddScoped<IResturantData, SqlResturantData>();
         }
 
         // This method gets called by the runtime. 
         // Use this method to configure the HTTP request pipeline.sss
         public void Configure(
             IApplicationBuilder app, 
-            IHostingEnvironment env, 
-            ILoggerFactory loggerFactory,
-            IGreeter greeter)
+            IHostingEnvironment env,
+            //IGreeter greeter,
+            ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
 
@@ -60,7 +68,7 @@ namespace OdeToFood
             // .Run is a terminal middleware so no other middleware after this will get chained
             app.Run(async (context) =>
             {
-                var greeting = greeter.GetGreeting();
+                var greeting = "greeter.GetGreeting()";
                 await context.Response.WriteAsync(greeting);
             });
         }
@@ -78,3 +86,4 @@ namespace OdeToFood
 //ASP.NET Core 1.0 Fundamentals
 //aspdotnet-core-1-0-fundamentals 
 //https://app.pluralsight.com/player?course=aspdotnet-core-1-0-fundamentals&author=scott-allen&name=aspdotnet-core-1-0-fundamentals-m4&clip=6&mode=live
+// Entity framework https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro

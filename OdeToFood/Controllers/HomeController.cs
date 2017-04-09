@@ -25,8 +25,35 @@ namespace OdeToFood.Controllers
                 CurrentGreeting = _greeter.GetGreeting()
             };
 
-            // Set template name to home instad of index return View("Home");
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var model = _resturantData.Get(id);
+
+            if (model == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int id, ResturantEditViewModel input)
+        {
+            var resturant = _resturantData.Get(id);
+            if (resturant != null && ModelState.IsValid)
+            {
+                resturant.Name = input.Name;
+                resturant.Cuisine = input.Cuisine;
+                _resturantData.Commit();
+
+                return RedirectToAction("Details", new { id = resturant.Id });
+            }
+            return View(resturant);
         }
 
         [HttpGet]
@@ -39,13 +66,18 @@ namespace OdeToFood.Controllers
         [HttpPost]
         public IActionResult Create(ResturantEditViewModel model)
         {
-            var resturant = new Resturant();
-            resturant.Name = model.Name;
-            resturant.Cuisine = model.Cuisine;
+            if(ModelState.IsValid) { 
+                var resturant = new Resturant();
+                resturant.Name = model.Name;
+                resturant.Cuisine = model.Cuisine;
 
-            _resturantData.Add(resturant);
+                _resturantData.Add(resturant);
+                _resturantData.Commit();
 
-            return RedirectToAction("Details", new { id = resturant.Id });
+                return RedirectToAction("details", new { id = resturant.Id });
+            }
+
+            return View();
         }
 
         public IActionResult Details(int id)
