@@ -9,7 +9,6 @@ namespace OdeToFood.ViewModels
 
         public IEnumerable<User> Users { get; set; }
 
-        public IEnumerable<User> Friends { get; set; }
         public string CurrentGreeting { get; set; }
     }
 }

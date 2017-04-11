@@ -13,7 +13,6 @@ namespace OdeToFood.Controllers
         private IUserData _userData;
         private IGreeter _greeter;
 
-
         public HomeController(
             IResturantData resturantData,
             IUserData userData,
@@ -30,7 +29,6 @@ namespace OdeToFood.Controllers
             {
                 Resturants = _resturantData.GetAll(),
                 Users = _userData.GetAll(),
-                Friends = _userData.GetFriends(),
                 CurrentGreeting = _greeter.GetGreeting()
             };
 

@@ -11,7 +11,6 @@ namespace OdeToFood.Services
     {
         User Get(string userName);
         IEnumerable<User> GetAll();
-        IEnumerable<User> GetFriends();
     }
     public class SqlUserData : IUserData
     {
@@ -31,11 +30,6 @@ namespace OdeToFood.Services
         public IEnumerable<User> GetAll()
         {
             return _context.Users.ToList();
-        }
-
-        public IEnumerable<User> GetFriends()
-        {
-            return _context.Users.SelectMany(u => u.Friends);
         }
     }
 }

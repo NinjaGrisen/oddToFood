@@ -11,6 +11,7 @@
     @Html.Partial("_Summary", resturant)
 }
 
+
 @foreach (var user in Model.Users)
 {
     <span>@user.UserName</span>
@@ -25,11 +26,4 @@
 
 <p>FRIENDS</p>
 <hr/>
-@foreach (var f in Model.Friends)
-{
-    <p>@f</p>
-    <hr />
-
-}
-
 

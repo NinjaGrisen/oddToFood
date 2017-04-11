@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@*@using Microsoft.AspNetCore.Mvc
-@using System.Security.Claims*@
+@*@model OdeToFood.ViewModels.LayoutViewModel*@
+
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
@@ -30,11 +30,16 @@
     </div>
     <div>
         @RenderBody()
-        @*@Component.InvokeAsync("Greeting")*@
+
+        
+        @await Component.InvokeAsync("Friends")
     </div>
     <footer>
         @RenderSection("footer", false)
-        
     </footer>
 </body>
 </html>
+
+
+   
+

@@ -5,6 +5,6 @@ namespace OdeToFood.Entities
 {
     public class User : IdentityUser
     {
-        public IEnumerable<User> Friends { get; set; }
+        public IEnumerable<Friend> Friends { get; set; }
     }
 }
