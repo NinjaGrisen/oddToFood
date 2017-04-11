@@ -8,9 +8,10 @@ using OdeToFood.Entities;
 namespace OdeToFood.Migrations
 {
     [DbContext(typeof(OdeToFoodDbContext))]
-    partial class OdeToFoodDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170410152221_v7")]
+    partial class v7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -174,8 +175,6 @@ namespace OdeToFood.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<string>("UserId");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
 
@@ -187,8 +186,6 @@ namespace OdeToFood.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -228,13 +225,6 @@ namespace OdeToFood.Migrations
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("OdeToFood.Entities.User", b =>
-                {
-                    b.HasOne("OdeToFood.Entities.User")
-                        .WithMany("Friends")
-                        .HasForeignKey("UserId");
                 });
         }
     }

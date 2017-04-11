@@ -8,9 +8,10 @@ using OdeToFood.Entities;
 namespace OdeToFood.Migrations
 {
     [DbContext(typeof(OdeToFoodDbContext))]
-    partial class OdeToFoodDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170410153644_v8")]
+    partial class v8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")

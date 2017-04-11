@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@*@using Microsoft.AspNetCore.Mvc
+@using System.Security.Claims*@
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -7,10 +15,26 @@
 </head>
 <body>
     <div>
+        @if(SignInManager.IsSignedIn(User))
+        {
+            <div>@UserManager.GetUserName(User)</div>
+            <form method="post" asp-controller="Account" asp-action="Logout">
+                <input type="submit" value="Logout" />
+            </form>
+        }
+        else
+        {
+            <a asp-controller="Account" asp-action="Login">Login</a>
+            <a asp-controller="Account" asp-action="Register">Register</a>
+        }
+    </div>
+    <div>
         @RenderBody()
+        @*@Component.InvokeAsync("Greeting")*@
     </div>
     <footer>
         @RenderSection("footer", false)
+        
     </footer>
 </body>
 </html>

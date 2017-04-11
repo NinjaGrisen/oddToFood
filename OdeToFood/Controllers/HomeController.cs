@@ -2,26 +2,35 @@
 using OdeToFood.ViewModels;
 using OdeToFood.Services;
 using OdeToFood.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OdeToFood.Controllers
 {
+    [Authorize]
     public class HomeController: Controller
     {
         private IResturantData _resturantData;
+        private IUserData _userData;
         private IGreeter _greeter;
+
 
         public HomeController(
             IResturantData resturantData,
+            IUserData userData,
             IGreeter greeting)
         {
             _resturantData = resturantData;
+            _userData = userData;
             _greeter = greeting;
         }
+        [AllowAnonymous]
         public IActionResult Index()
         {
             var model = new HomePageViewModel()
             {
                 Resturants = _resturantData.GetAll(),
+                Users = _userData.GetAll(),
+                Friends = _userData.GetFriends(),
                 CurrentGreeting = _greeter.GetGreeting()
             };
 
@@ -91,6 +100,14 @@ namespace OdeToFood.Controllers
 
             //can look at route => /id (/2) or query /?id=2
             return View(model);
-        } 
+        }
+        
+        [HttpPost]
+        public IActionResult Add()
+        {
+
+            return View();
+        }
+
     }
 }

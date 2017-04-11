@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Routing;
 using System;
 using OdeToFood.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace OdeToFood
 {
@@ -37,9 +38,13 @@ namespace OdeToFood
                 .AddDbContext<OdeToFoodDbContext>(
                 options => options.UseSqlServer(Configuration["database:connection"]));
 
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<OdeToFoodDbContext>();
+
             services.AddSingleton(privider => Configuration);
             services.AddSingleton<IGreeter, Greeter>();
             services.AddScoped<IResturantData, SqlResturantData>();
+            services.AddScoped<IUserData, SqlUserData>();
         }
 
         // This method gets called by the runtime. 
@@ -62,6 +67,8 @@ namespace OdeToFood
              UseStaticFiles() Serves upp static files */
 
             app.UseFileServer();
+
+            app.UseIdentity();
 
             app.UseMvc(ConfigureRoutes);
 
