@@ -1,0 +1,29 @@
+﻿@model OdeToFood.ViewModels.HomePageViewModel
+
+@{
+    ViewBag.Title = "Home";
+}
+
+<h1>hi</h1>
+
+@foreach (var resturant in Model.Resturants)
+{
+    @Html.Partial("_Summary", resturant)
+}
+
+
+@foreach (var user in Model.Users)
+{
+    <span>@user.UserName</span>
+    <a asp-contoller="fried" asp-action="add">Add as friend</a>
+    <br />
+}
+
+@* asp-controller is not needed if the same controller renders both views *@
+<div>
+    <a asp-controller="Home" asp-action="Create">Create</a>
+</div>
+
+<p>FRIENDS</p>
+<hr/>
+

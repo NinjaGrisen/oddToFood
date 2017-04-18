@@ -1,0 +1,11 @@
+﻿@model OdeToFood.Entities.Resturant
+@{
+    ViewBag.Title = "Details";
+}
+
+<h1>@Model.Name</h1>
+<p>ID: @Model.Id</p>
+<p>Cuisine: @Model.Cuisine</p>
+
+@* If secound paramemter is left empty it defaults to index controller action *@
+@Html.ActionLink("Back to list", "")
