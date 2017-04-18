@@ -45,6 +45,7 @@ namespace OdeToFood
             services.AddSingleton<IGreeter, Greeter>();
             services.AddScoped<IResturantData, SqlResturantData>();
             services.AddScoped<IUserData, SqlUserData>();
+            services.AddScoped<IFriendsData, SqlFriendsData>();
         }
 
         // This method gets called by the runtime. 

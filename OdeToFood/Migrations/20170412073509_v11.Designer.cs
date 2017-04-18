@@ -8,9 +8,10 @@ using OdeToFood.Entities;
 namespace OdeToFood.Migrations
 {
     [DbContext(typeof(OdeToFoodDbContext))]
-    partial class OdeToFoodDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170412073509_v11")]
+    partial class v11
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -125,22 +126,14 @@ namespace OdeToFood.Migrations
 
             modelBuilder.Entity("OdeToFood.Entities.Friend", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("pId")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int>("FriendForeignKey");
-
-                    b.Property<string>("FriendId");
 
                     b.Property<string>("UserId");
 
-                    b.Property<string>("UserId1");
-
-                    b.HasKey("Id");
+                    b.HasKey("pId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Friends");
                 });
@@ -253,10 +246,6 @@ namespace OdeToFood.Migrations
                     b.HasOne("OdeToFood.Entities.User")
                         .WithMany("Friends")
                         .HasForeignKey("UserId");
-
-                    b.HasOne("OdeToFood.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
                 });
         }
     }

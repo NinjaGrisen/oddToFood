@@ -8,9 +8,10 @@ using OdeToFood.Entities;
 namespace OdeToFood.Migrations
 {
     [DbContext(typeof(OdeToFoodDbContext))]
-    partial class OdeToFoodDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170412072735_v10")]
+    partial class v10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -67,10 +68,14 @@ namespace OdeToFood.Migrations
 
                     b.Property<string>("ClaimValue");
 
+                    b.Property<string>("FriendId");
+
                     b.Property<string>("UserId")
                         .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FriendId");
 
                     b.HasIndex("UserId");
 
@@ -83,12 +88,16 @@ namespace OdeToFood.Migrations
 
                     b.Property<string>("ProviderKey");
 
+                    b.Property<string>("FriendId");
+
                     b.Property<string>("ProviderDisplayName");
 
                     b.Property<string>("UserId")
                         .IsRequired();
 
                     b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("FriendId");
 
                     b.HasIndex("UserId");
 
@@ -101,7 +110,11 @@ namespace OdeToFood.Migrations
 
                     b.Property<string>("RoleId");
 
+                    b.Property<string>("FriendId");
+
                     b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("FriendId");
 
                     b.HasIndex("RoleId");
 
@@ -125,22 +138,42 @@ namespace OdeToFood.Migrations
 
             modelBuilder.Entity("OdeToFood.Entities.Friend", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("FriendForeignKey");
+                    b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("FriendId");
+                    b.Property<string>("ConcurrencyStamp");
+
+                    b.Property<string>("Email");
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail");
+
+                    b.Property<string>("NormalizedUserName");
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserId");
 
-                    b.Property<string>("UserId1");
+                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Friends");
                 });
@@ -221,6 +254,10 @@ namespace OdeToFood.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
+                    b.HasOne("OdeToFood.Entities.Friend")
+                        .WithMany("Claims")
+                        .HasForeignKey("FriendId");
+
                     b.HasOne("OdeToFood.Entities.User")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
@@ -229,6 +266,10 @@ namespace OdeToFood.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
+                    b.HasOne("OdeToFood.Entities.Friend")
+                        .WithMany("Logins")
+                        .HasForeignKey("FriendId");
+
                     b.HasOne("OdeToFood.Entities.User")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
@@ -237,6 +278,10 @@ namespace OdeToFood.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
                 {
+                    b.HasOne("OdeToFood.Entities.Friend")
+                        .WithMany("Roles")
+                        .HasForeignKey("FriendId");
+
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
@@ -253,10 +298,6 @@ namespace OdeToFood.Migrations
                     b.HasOne("OdeToFood.Entities.User")
                         .WithMany("Friends")
                         .HasForeignKey("UserId");
-
-                    b.HasOne("OdeToFood.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
                 });
         }
     }

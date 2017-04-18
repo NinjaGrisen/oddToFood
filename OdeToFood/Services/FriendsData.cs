@@ -1,23 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
 using OdeToFood.Entities;
-
 
 namespace OdeToFood.Services
 {
     public interface IFriendsData
     {
-        IEnumerable<Friend> GetAll();
+        void Add(User newFriend);
+        int Commit();
     }
+
+    public class SqlFriendsData : IFriendsData
+    {
+        private OdeToFoodDbContext _context;
+        public SqlFriendsData(OdeToFoodDbContext context)
+        {
+            _context = context;
+        }
+
+        public void Add(User newFriend)
+        {
+            _context.Add(newFriend);
+        }
+
+        public int Commit()
+        {
+            return _context.SaveChanges();
+        }
+    }
+
 
     public class InMemoryFriendsData : IFriendsData
     {
         public InMemoryFriendsData(IUserData userData)
         {
+        /*
             var user1 = userData.Get("Alva");
             var user2 = userData.Get("NinjaGrisen");
 
-            if (user1 == null )
+            if (user1 == null)
             {
                 return;
             }
@@ -44,13 +64,17 @@ namespace OdeToFood.Services
                             }
                 }
             };
+        */
         }
 
-        public IEnumerable<Friend> GetAll()
+        public void Add(User friend)
         {
-            return _friends;
+            throw new NotImplementedException();
         }
 
-        static List<Friend> _friends;
+        public int Commit()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
